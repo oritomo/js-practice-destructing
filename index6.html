@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rest/Spread</title>
+</head>
+
+<body>
+  <script>
+    'use strict'
+    {
+      //-------------オブジェクトに対する分割代入---------------
+      //オブジェクトからはプロパティが抽出できる
+      const expense = {
+        type: '交際費',
+        amount: '450000$',
+      };
+
+      const { type: z, amount } = expense;
+      console.log(z);
+      console.log(amount);
+
+      //----------------------------------------------------
+
+      const fileList = {
+        extension: 'jpg',
+        name: 'profile',
+        size: 1400,
+      }
+
+      // function fileSummary(file){
+      //   return `${file.name}.${file.extension}の容量は${file.size}です`
+      // }
+      //これだとfile.を3回も書いていて冗長なので分割代入
+
+      //console.log(fileSummary(fileList));
+
+      function fileSummary({ extension, size, name }, { username }) {
+        return `${username}: ${name}.${extension}の容量は${size}です`
+      }
+      console.log(fileSummary(fileList, { username: 'rengoku' }));
+
+      //-----------------配列に対する分割代入------------------
+      //配列からは要素が抽出できる
+
+      const companies = [
+        'Google',
+        'Facebook',
+        'Yahoo!',
+        'Mercari',
+      ];
+      const [comp1, comp2, comp3, comp4] = companies;
+      const { length } = companies;
+
+      console.log(length); //4
+      console.log(comp1); //Google
+      console.log(comp2); //Facebook
+      console.log(comp3); //Yahoo!
+      console.log(comp4); //Mercari
+
+      const [compa1, ...rest] = companies;
+      console.log(compa1); //Google
+      console.log(rest); //['Facebook', 'Yahoo!', 'Mercari']
+
+      //------------配列とオブジェクトを同時に分割代入-----------
+      //配列の中にオブジェクトバージョン
+      const clubteam = [
+        { teamName: 'レアルマドリード', place: 'スペイン' },
+        { teamName: 'ザルツブルグ', place: 'オーストリア' },
+        { teamName: 'インテル', place: 'イタリア' },
+        { teamName: 'リヴァプール', place: 'イングランド' },
+      ];
+
+      //const [place] = clubteam; //１個目のオブジェクトのを取得できる　　{teamName:'レアルマドリード', place: 'スペイン' }
+      const [{ place }] = clubteam; //１個目のオブジェクトのplaceを取りたいので{}にいれてあげる　　スペイン
+
+      console.log(place);
+
+      //-----------------------------------------------------
+      //オブジェクトの中に配列バージョン
+
+      const nations = {
+        locations: ['バイエルン', 'バルセロナ', 'ミラノ', 'パリ', 'バーゼル']
+      }
+
+      const { locations } = nations;
+      console.log(locations); //['バイエルン','バルセロナ','ミラノ','パリ','バーゼル']
+
+      const { locations: [first, second] } = nations;
+      console.log(first); //バイエルン
+      console.log(second); //バルセロナ
+
+      //-------------------分割代入の使いどころ------------------
+      const points = [
+        [4, 5],
+        [10, 21],
+        [0, 40],
+      ];
+
+      // points.map(point => {
+      //   const [x, y] = point;
+      //   return console.log({ x: x, y: y });
+      // });
+
+      //めっちゃ省略するとここまで減らせる
+      points.map(([x, y]) => {
+        return console.log({ x, y });
+      });
+
+      const classes = [
+        ['化学', '1時限目', '鈴木先生'],
+        ['物理', '2時限目', '佐藤先生'],
+        ['数学', '3時限目', '木村先生']
+      ];
+
+      const classesAsObject = classes.map(item => {
+        const [subject, time, teacher] = item;
+        return console.log({ subject: subject, time: time, teacher: teacher });
+      })
+
+      
+
+
+    }
+  </script>
+</body>
+
+</html>
